@@ -1,11 +1,13 @@
-import type { Environment } from "../entities/featureFlag/model/types";
+import type { Environment, UserRole } from "../entities/featureFlag/model/types";
 import { useEnvironment } from "../providers/EnvironmentContext";
+import { useAuth } from "../providers/UserRoleContext";
 
 const environments: Environment[] = ["dev", "stage", "prod"];
+const roles: UserRole[] = ["viewer", "editor", "admin"];
 
 export const Header = () => {
     const { environment, setEnvironment } = useEnvironment();
-
+    const { userRole, setUserRole } = useAuth();
     return (
         <div className="container mx-auto px-0 h-full flex justify-between items-center">
                 <div className="flex items-center justify-items-center">
@@ -28,6 +30,20 @@ export const Header = () => {
                         <option className="bg-gray-900 text-cyan-100 py-1 hover:bg-gray-800" key={env} value={env}>
                             {env.toUpperCase()}
                         </option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <h1>Roles:</h1>
+                    <select 
+                        value={userRole}
+                        onChange={(e) => setUserRole(e.target.value as UserRole)}
+                        className=""
+                    >
+                        {roles.map((role) => (
+                            <option className="" key={role} value={role}>
+                                {role.toUpperCase()}
+                            </option>
                         ))}
                     </select>
                 </div>
