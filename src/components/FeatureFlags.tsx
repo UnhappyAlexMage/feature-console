@@ -1,6 +1,10 @@
+import { useState } from "react";
+
 import { useEnvironment } from "../providers/EnvironmentContext";
 import { useFeatureFlags } from "../hooks/useFeatureFlags";
-import { useState } from "react";
+import { useAuth } from "../providers/UserRoleContext";
+import { canToggleFlag } from "../entities/featureFlag/model/rules";
+
 
 export const FeatureFlags = () => {
   const [visible, setVisible] = useState(false);
@@ -9,9 +13,12 @@ export const FeatureFlags = () => {
   };
 
   const { environment } = useEnvironment();
-  const { featureFlags, loading, error } = useFeatureFlags();
+  const { userRole } = useAuth();
+  const { flags, isLoading, error, toggleFlag } = useFeatureFlags();
 
-  if (loading) return <div>Loading...</div>;
+  const canToggle = canToggleFlag(userRole, environment);
+
+  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading flags</div>;
 
   return (
@@ -22,7 +29,7 @@ export const FeatureFlags = () => {
         </h2>
       </div>
       {visible && (<ul className="space-y-2">
-        {featureFlags.map((flag) => {
+        {flags.map((flag) => {
           const isEnabled = flag.environments?.[environment];
           return (
             <li
@@ -30,9 +37,19 @@ export const FeatureFlags = () => {
               className="flex justify-between border p-3 rounded"
             >
               <span>{flag.key}</span>
-              <span className={isEnabled ? "text-green-600" : "text-red-600"}>
+              <button
+                disabled={!canToggle}
+                onClick={() => {
+                  if(!canToggle) return;
+                  toggleFlag(flag, environment);
+                }}
+                className={`px-3 
+                  ${isEnabled ? "text-green-600" : "text-red-600"}
+                  ${!canToggle && "opacity-50 cursor-not-allowed"}
+                `}
+              >
                 {isEnabled ? "ON" : "OFF"}
-              </span>
+              </button>
             </li>
           );
         })}
