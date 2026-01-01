@@ -6,6 +6,9 @@ import { RouterProvider } from 'react-router-dom';
 import router from './routes/router';
 import { store } from './store/store';
 
+import { EnvironmentProdider } from './providers/EnvironmentContext';
+import { AuthProvider } from './providers/UserRoleContext';
+
 import './index.css';
 
 async function enableMocking() {
@@ -19,7 +22,11 @@ enableMocking().then(() => {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <Provider store={store}>
-        <RouterProvider router={router} />
+          <EnvironmentProdider>
+            <AuthProvider>
+              <RouterProvider router={router} />
+            </AuthProvider>
+          </EnvironmentProdider>
       </Provider>
     </StrictMode>,
   )
