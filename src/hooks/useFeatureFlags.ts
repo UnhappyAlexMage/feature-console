@@ -1,34 +1,51 @@
-// entities/featureFlag/hooks/useFeatureFlags.ts
-import { useEffect, useState } from 'react'
-import { fetchFeatureFlags } from '../api/featureFlag.api'
-import { mapFeatureFlagDtoDomain } from '../api/mappingFeatureFlag'
-import type { FeatureFlag } from '../entities/featureFlag/model/types'
+import { useEffect, useState } from "react";
+import type { FeatureFlag } from "../entities/featureFlag/model/types";
+import { fetchFeatureFlags } from "../api/featureFlag.api";
+import { toggleFeatureFlag } from "../entities/featureFlag/model/action";
+import { updateFeatureFlagApi } from "../api/updateFeatureFlag.api";
+import type { Environment } from "../entities/featureFlag/model/types";
+import { mapFeatureFlagDtoDomain } from "../api/mappingFeatureFlag";
 
 export function useFeatureFlags() {
-  const [data, setData] = useState<FeatureFlag[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [flags, setFlags] = useState<FeatureFlag[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        fetchFeatureFlags()
-            .then((dtoList) => {
-                console.log('DTO LIST:', dtoList)
-                return dtoList.map(mapFeatureFlagDtoDomain)
-            })
-            .then((domain) => {
-                console.log('DOMAIN LIST:', domain)
-                setData(domain)
-            })
-            .catch((err) => {
-                console.error('ERROR IN useFeatureFlags:', err)
-                setError('Failed to load feature flags')
-            })
-            .finally(() => setLoading(false))
-    }, [])
+  useEffect(() => {
+    fetchFeatureFlags()
+      .then((dtos) => dtos.map(mapFeatureFlagDtoDomain))
+      .then(setFlags)
+      .catch(() => setError("Failed to load feature flags"))
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  async function toggleFlag(
+    flag: FeatureFlag,
+    environment: Environment
+  ) {
+    const updated = toggleFeatureFlag(flag, environment);
+
+    setFlags((prev) =>
+      prev.map((f) => (f.id === flag.id ? updated : f))
+    );
+
+    try {
+      await updateFeatureFlagApi(
+        flag.id,
+        environment,
+        updated.environments[environment]
+      );
+    } catch {
+      setFlags((prev) =>
+        prev.map((f) => (f.id === flag.id ? flag : f))
+      );
+    }
+  }
 
   return {
-    featureFlags: data,
-    loading,
+    flags,
+    isLoading,
     error,
-  }
+    toggleFlag,
+  };
 }
