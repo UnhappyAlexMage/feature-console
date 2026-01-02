@@ -9,3 +9,8 @@ export interface FeatureFlag {
     environments: Record<Environment, boolean>
     createdAt: string
 };
+
+export type UpdateFeatureFlagBody = {
+  environment: Environment;
+  enabled: boolean;
+};
