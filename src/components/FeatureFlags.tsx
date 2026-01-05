@@ -5,9 +5,8 @@ import { useFeatureFlags } from "../hooks/useFeatureFlags";
 import { useAuth } from "../providers/UserRoleContext";
 import { canToggleFlag } from "../entities/featureFlag/model/rules";
 
-
 export const FeatureFlags = () => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const handleClickVisible = () => {
     setVisible(!visible);
   };
