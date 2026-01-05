@@ -1,5 +1,6 @@
 import { FeatureFlags } from "./components/FeatureFlags"
 import { Header } from "./components/Header"
+import TableFeatures from "./components/FeatureFlagsTable/TableFeatures"
 
 function App() {
 
@@ -13,10 +14,8 @@ function App() {
         <aside className="w-74 border-r p-2 ">
           <FeatureFlags />
         </aside>
-
-        {/* Main content */}
         <main className="flex-1 p-8 w-375">
-            Main Content
+            <TableFeatures />
         </main>
       </div>
     </div>
