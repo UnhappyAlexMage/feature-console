@@ -4,7 +4,7 @@ import { fetchFeatureFlags } from "../api/featureFlag.api";
 import { toggleFeatureFlag } from "../entities/featureFlag/model/action";
 import { updateFeatureFlagApi } from "../api/updateFeatureFlag.api";
 import type { Environment } from "../entities/featureFlag/model/types";
-import { mapFeatureFlagDtoDomain } from "../api/mappingFeatureFlag";
+import { mapFeatureFlagDtoDomain } from "../service/mappingFeatureFlag";
 
 export function useFeatureFlags() {
   const [flags, setFlags] = useState<FeatureFlag[]>([]);
@@ -42,10 +42,20 @@ export function useFeatureFlags() {
     }
   }
 
+  const addFlag = (flag: FeatureFlag) => {
+    setFlags((prev) => [...prev, flag]);
+  };
+
+  const removeFlag = (id: string) => {
+    setFlags((prev) => prev.filter((f) => f.id !== id));
+  };
+
   return {
     flags,
     isLoading,
     error,
     toggleFlag,
+    addFlag,
+    removeFlag
   };
 }
