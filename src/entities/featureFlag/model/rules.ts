@@ -38,4 +38,12 @@ export function getToggleForbiddenReason(
   }
 
   return null
+};
+
+export function canCreateFlag(role: UserRole) {
+  return role === 'editor' || role === 'admin';
+}
+
+export function canDeleteFlag(role: UserRole) {
+  return role === 'admin';
 }

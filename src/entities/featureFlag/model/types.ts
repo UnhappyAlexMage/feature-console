@@ -14,3 +14,8 @@ export type UpdateFeatureFlagBody = {
   environment: Environment;
   enabled: boolean;
 };
+
+export type CreateFeatureFlagForm = {
+  key: string,
+  description?: string
+};
