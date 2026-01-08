@@ -6,6 +6,7 @@ import { canToggleFlag } from "../../entities/featureFlag/model/rules";
 import { StatusCell } from "./StatusCell";
 import { ToggleButton } from "./ToggleButton";
 import { toggleFlag } from "../../features/toggleFlag";
+import { DeleteFeatureFlagButton } from "../../features/deleteFeatureFlag/DeleteFeatureFlagButton";
 
 export default function TableFeatures() {
     const { flags } = useFeatureFlags();
@@ -18,10 +19,11 @@ export default function TableFeatures() {
         <table className="w-full border border-gray-300 rounded-lg">
             <thead className="border-t">
                 <tr className="bg-gray-100">
-                    <th className="p-4 text-center font-semibold w-1/4 text-black">Feature</th>
-                    <th className="p-4 text-center font-semibold w-1/4 text-black">Description</th>
-                    <th className="p-4 text-center font-semibold w-1/4 text-black">Status</th>
-                    <th className="p-4 text-center font-semibold w-1/4 text-black">Actions</th>
+                    <th className="p-4 text-center font-semibold w-1/5 text-black">Feature</th>
+                    <th className="p-4 text-center font-semibold w-1/5 text-black">Description</th>
+                    <th className="p-4 text-center font-semibold w-1/5 text-black">Status</th>
+                    <th className="p-4 text-center font-semibold w-1/5 text-black">Add Actions</th>
+                    <th className="p-4 text-center font-semibold w-1/5 text-black">Delete Actions</th>
                 </tr>
             </thead>
             <tbody className="">
@@ -42,6 +44,12 @@ export default function TableFeatures() {
                                     enabled={enabled}
                                     disabled={!canToggle}
                                     onToggle={() => toggleFlag(flag, environment)}
+                                />
+                            </td>
+                            <td className="p-2 space-x-2 text-center">
+                                <DeleteFeatureFlagButton 
+                                    id={flag.id}
+                                    disabled={!canToggle}
                                 />
                             </td>
                         </tr>)
