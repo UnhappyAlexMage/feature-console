@@ -9,9 +9,9 @@ export async function toggleFlag(
     const updated = toggleFeatureFlag(flag, environment);
 
     await updateFeatureFlagApi(
-            flag.id,
-            environment,
-            updated.environments[environment]
+        flag.id,
+        environment,
+        updated.environments[environment]
     );
 
     return updated;
