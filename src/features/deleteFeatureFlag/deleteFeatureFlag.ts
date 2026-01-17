@@ -5,5 +5,4 @@ export function deleteFeatureFlag (
     id: string
 ) {
     return flags.filter((f) => f.id !== id);
-    
 }
