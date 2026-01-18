@@ -13,12 +13,12 @@ export const FeatureFlags = () => {
 
   const { environment } = useEnvironment();
   const { userRole } = useAuth();
-  const { flags, isLoading, error, toggleFlag } = useFeatureFlags();
+  const featureFlags = useFeatureFlags();
 
   const canToggle = canToggleFlag(userRole, environment);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading flags</div>;
+  if (featureFlags.isLoading) return <div>Loading...</div>;
+  if (featureFlags.error) return <div>Error loading flags</div>;
 
   return (
     <div className="p-6">
@@ -28,7 +28,7 @@ export const FeatureFlags = () => {
         </h2>
       </div>
       {visible && (<ul className="space-y-2">
-        {flags.map((flag) => {
+        {featureFlags.flags.map((flag) => {
           const isEnabled = flag.environments?.[environment];
           return (
             <li
@@ -40,7 +40,7 @@ export const FeatureFlags = () => {
                 disabled={!canToggle}
                 onClick={() => {
                   if(!canToggle) return;
-                  toggleFlag(flag, environment);
+                  featureFlags.toggleFlag(flag, environment);
                 }}
                 className={`px-3 
                   ${isEnabled ? "text-green-600" : "text-red-600"}
