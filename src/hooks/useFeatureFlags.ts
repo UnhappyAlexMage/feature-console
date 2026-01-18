@@ -19,7 +19,7 @@ export function useFeatureFlags() {
       .finally(() => setIsLoading(false));
   }, []);
 
-  async function toggleFlag(
+  function toggleFlag(
     flag: FeatureFlag,
     environment: Environment
   ) {
@@ -30,7 +30,7 @@ export function useFeatureFlags() {
     );
 
     try {
-      await updateFeatureFlagApi(
+      updateFeatureFlagApi(
         flag.id,
         environment,
         updated.environments[environment]
@@ -47,7 +47,7 @@ export function useFeatureFlags() {
   };
 
   const removeFlag = (id: string) => {
-    setFlags((prev) => prev.filter((f) => f.id !== id));
+    setFlags((prev) => prev.filter((flag) => flag.id !== id));
   };
 
   return {
