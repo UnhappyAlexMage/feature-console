@@ -9,7 +9,7 @@ import { toggleFlag } from "../../features/toggleFlag";
 import { DeleteFeatureFlagButton } from "../../features/deleteFeatureFlag/DeleteFeatureFlagButton";
 
 export default function TableFeatures() {
-    const { flags } = useFeatureFlags();
+    const featureFlags = useFeatureFlags();
     const { environment } = useEnvironment();
     const { userRole } = useAuth();
 
@@ -27,7 +27,7 @@ export default function TableFeatures() {
                 </tr>
             </thead>
             <tbody className="">
-                {flags.map((flag) => {
+                {featureFlags.flags.map((flag) => {
                     const enabled = getFlagStatus(flag, environment);
                     return (
                         <tr key={flag.key} className="border-t">
@@ -49,7 +49,7 @@ export default function TableFeatures() {
                             <td className="p-2 space-x-2 text-center">
                                 <DeleteFeatureFlagButton 
                                     id={flag.id}
-                                    disabled={!canToggle}
+                                    onDelete={featureFlags.removeFlag}
                                 />
                             </td>
                         </tr>)
