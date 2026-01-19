@@ -9,6 +9,7 @@ import { store } from './store/store';
 import { EnvironmentProdider } from './providers/EnvironmentContext';
 import { AuthProvider } from './providers/UserRoleContext';
 import { UIProvider } from './providers/UIContext';
+import { FeatureFlagsProvider } from './providers/FeatureFlagsContext';
 
 import './index.css';
 
@@ -23,13 +24,15 @@ enableMocking().then(() => {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <Provider store={store}>
-        <UIProvider>
-          <EnvironmentProdider>
-            <AuthProvider>
-              <RouterProvider router={router} />
-            </AuthProvider>
-          </EnvironmentProdider>
-        </UIProvider>
+        <FeatureFlagsProvider>
+          <UIProvider>
+            <EnvironmentProdider>
+              <AuthProvider>
+                <RouterProvider router={router} />
+              </AuthProvider>
+            </EnvironmentProdider>
+          </UIProvider>
+        </FeatureFlagsProvider>
       </Provider>
     </StrictMode>,
   )
