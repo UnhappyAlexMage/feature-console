@@ -1,4 +1,5 @@
-import { useFeatureFlags } from "../../hooks/useFeatureFlags";
+// import { useFeatureFlags } from "../../hooks/useFeatureFlags";
+import { useFeatureFlagsContext } from "../../providers/FeatureFlagsContext";
 import { useAuth } from "../../providers/UserRoleContext";
 import { useEnvironment } from "../../providers/EnvironmentContext";
 import { getFlagStatus } from "../../entities/featureFlag/model/selectors";
@@ -9,7 +10,7 @@ import { toggleFlag } from "../../features/toggleFlag";
 import { DeleteFeatureFlagButton } from "../../features/deleteFeatureFlag/DeleteFeatureFlagButton";
 
 export default function TableFeatures() {
-    const featureFlags = useFeatureFlags();
+    const featureFlags = useFeatureFlagsContext();
     const { environment } = useEnvironment();
     const { userRole } = useAuth();
 
