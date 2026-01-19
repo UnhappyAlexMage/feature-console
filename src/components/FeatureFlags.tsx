@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 import { useEnvironment } from "../providers/EnvironmentContext";
-import { useFeatureFlags } from "../hooks/useFeatureFlags";
 import { useAuth } from "../providers/UserRoleContext";
 import { canToggleFlag } from "../entities/featureFlag/model/rules";
+import { useFeatureFlagsContext } from "../providers/FeatureFlagsContext";
 
 export const FeatureFlags = () => {
   const [visible, setVisible] = useState(true);
@@ -13,7 +13,7 @@ export const FeatureFlags = () => {
 
   const { environment } = useEnvironment();
   const { userRole } = useAuth();
-  const featureFlags = useFeatureFlags();
+  const featureFlags = useFeatureFlagsContext();
 
   const canToggle = canToggleFlag(userRole, environment);
 
