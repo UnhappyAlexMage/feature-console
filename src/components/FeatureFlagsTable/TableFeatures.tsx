@@ -17,7 +17,7 @@ export default function TableFeatures() {
     const canToggle = canToggleFlag(userRole, environment);
 
     return (
-        <table className="w-full border border-gray-300 rounded-lg">
+        <table className="w-full border border-gray-300 rounded-lg mt-6">
             <thead className="border-t">
                 <tr className="bg-gray-100">
                     <th className="p-4 text-center font-semibold w-1/5 text-black">Feature</th>
