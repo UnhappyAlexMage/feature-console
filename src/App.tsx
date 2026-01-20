@@ -1,6 +1,8 @@
 import { FeatureFlags } from "./components/FeatureFlags"
 import { Header } from "./components/Header"
 import TableFeatures from "./components/FeatureFlagsTable/TableFeatures"
+import { CreateFeatureFlagButton } from "./features/createFeatureFlag/CreateFeatureFlagButton"
+import { CreateFeatureFlagModal } from "./features/createFeatureFlag/CreateFeatureFlagModal"
 
 function App() {
 
@@ -15,7 +17,9 @@ function App() {
           <FeatureFlags />
         </aside>
         <main className="flex-1 p-8 w-375">
-            <TableFeatures />
+          <CreateFeatureFlagButton />
+          <CreateFeatureFlagModal />
+          <TableFeatures />
         </main>
       </div>
     </div>
