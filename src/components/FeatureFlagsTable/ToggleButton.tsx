@@ -9,7 +9,7 @@ export const ToggleButton = ({ enabled, disabled, onToggle } : ToggleButtonProps
         <button
             type="button"
             disabled={disabled}
-            onClick={onToggle}
+            onClick={() => onToggle()}
             className={`p-3 py-1 rounded text-white font-medium transition-all
                 ${enabled ? 'bg-green-500' : 'bg-red-500'}
                 ${disabled ? 'opacity-40 cursor-not-allowed' : 'hover:opacity-80'}
