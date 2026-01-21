@@ -9,12 +9,16 @@ import { ToggleButton } from "./ToggleButton";
 import { toggleFlag } from "../../features/toggleFlag";
 import { DeleteFeatureFlagButton } from "../../features/deleteFeatureFlag/DeleteFeatureFlagButton";
 
+import { useFeatureFlagSearch } from "../../hooks/useFeatureFlagSearch";
+
 export default function TableFeatures() {
     const featureFlags = useFeatureFlagsContext();
     const { environment } = useEnvironment();
     const { userRole } = useAuth();
 
     const canToggle = canToggleFlag(userRole, environment);
+
+    const { filteredFlags } = useFeatureFlagSearch();
 
     return (
         <table className="w-full border border-gray-300 rounded-lg mt-6">
@@ -28,7 +32,7 @@ export default function TableFeatures() {
                 </tr>
             </thead>
             <tbody className="">
-                {featureFlags.flags.map((flag) => {
+                {filteredFlags.map((flag) => {
                     const enabled = getFlagStatus(flag, environment);
                     return (
                         <tr key={flag.key} className="border-t">
