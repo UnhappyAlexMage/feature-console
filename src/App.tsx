@@ -3,6 +3,7 @@ import { Header } from "./components/Header"
 import TableFeatures from "./components/FeatureFlagsTable/TableFeatures"
 import { CreateFeatureFlagButton } from "./features/createFeatureFlag/CreateFeatureFlagButton"
 import { CreateFeatureFlagModal } from "./features/createFeatureFlag/CreateFeatureFlagModal"
+import { InputSeacrhFeatureFlags } from "./features/search/InputSearchFeatureFlags"
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
           <FeatureFlags />
         </aside>
         <main className="flex-1 p-8 w-375">
+          <InputSeacrhFeatureFlags />
           <CreateFeatureFlagButton />
           <CreateFeatureFlagModal />
           <TableFeatures />
