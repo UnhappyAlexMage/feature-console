@@ -11,7 +11,7 @@ export function CreateFeatureFlagButton () {
         <button
             type="button"
             disabled={!canCreate}
-            className={`px-1 ${!canCreate ? "opacity-40 cursor-not-allowed" : "hover:opacity-80"}`} 
+            className={`px-1 mt-6 ${!canCreate ? "opacity-40 cursor-not-allowed" : "hover:opacity-80"}`} 
             onClick={() => openCreateModal()}>
                 + Create Feature Flag
         </button>
