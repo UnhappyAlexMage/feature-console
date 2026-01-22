@@ -4,8 +4,10 @@ import TableFeatures from "./components/FeatureFlagsTable/TableFeatures"
 import { CreateFeatureFlagButton } from "./features/createFeatureFlag/CreateFeatureFlagButton"
 import { CreateFeatureFlagModal } from "./features/createFeatureFlag/CreateFeatureFlagModal"
 import { InputSeacrhFeatureFlags } from "./features/search/InputSearchFeatureFlags"
+import { useFeatureFlagSearch } from "./hooks/useFeatureFlagSearch"
 
 function App() {
+  const searchState = useFeatureFlagSearch();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -18,10 +20,15 @@ function App() {
           <FeatureFlags />
         </aside>
         <main className="flex-1 p-8 w-375">
-          <InputSeacrhFeatureFlags />
+          <InputSeacrhFeatureFlags 
+            search={searchState.search}
+            setSearch={searchState.setSearch}
+          />
           <CreateFeatureFlagButton />
           <CreateFeatureFlagModal />
-          <TableFeatures />
+          <TableFeatures 
+            filteredFlags={searchState.filterSearchState}
+          />
         </main>
       </div>
     </div>
