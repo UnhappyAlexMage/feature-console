@@ -1,7 +1,11 @@
-import { useFeatureFlagSearch } from "../../hooks/useFeatureFlagSearch";
 
-export const InputSeacrhFeatureFlags = () => {
-    const { search, setSearch } = useFeatureFlagSearch();
+type Props = {
+    search: string,
+    setSearch: (value: string) => void
+};
+
+export const InputSeacrhFeatureFlags = ({ search, setSearch }: Props) => {
+
     return (
         <input 
             type="text"
