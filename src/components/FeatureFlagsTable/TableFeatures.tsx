@@ -9,16 +9,20 @@ import { ToggleButton } from "./ToggleButton";
 import { toggleFlag } from "../../features/toggleFlag";
 import { DeleteFeatureFlagButton } from "../../features/deleteFeatureFlag/DeleteFeatureFlagButton";
 
-import { useFeatureFlagSearch } from "../../hooks/useFeatureFlagSearch";
+import type { FeatureFlag } from "../../entities/featureFlag/model/types";
 
-export default function TableFeatures() {
+type Props = {
+    filteredFlags: FeatureFlag[]
+};
+
+export default function TableFeatures({ filteredFlags }: Props) {
     const featureFlags = useFeatureFlagsContext();
     const { environment } = useEnvironment();
     const { userRole } = useAuth();
 
     const canToggle = canToggleFlag(userRole, environment);
 
-    const { filteredFlags } = useFeatureFlagSearch();
+    // const { filteredFlags } = useFeatureFlagSearch();
 
     return (
         <table className="w-full border border-gray-300 rounded-lg mt-6">
@@ -35,7 +39,7 @@ export default function TableFeatures() {
                 {filteredFlags.map((flag) => {
                     const enabled = getFlagStatus(flag, environment);
                     return (
-                        <tr key={flag.key} className="border-t">
+                        <tr key={flag.id} className="border-t">
                             <td className="p-2 text-center">{flag.key}</td>
                             <td className="p-2 text-center">{flag.description ?? '-'}</td>
                             <td className="p-2 text-center">
