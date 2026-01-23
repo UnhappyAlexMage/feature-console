@@ -1,12 +1,15 @@
-import type { FeatureFlag } from "../../entities/featureFlag/model/types";
+// import type { FeatureFlag } from "../../entities/featureFlag/model/types";
 
 export function searchFeatureFlags(
-    flags: FeatureFlag[],
+    // flags: FeatureFlag[],
+    index: { id: string, searchableText: string }[],
     query: string
-) : FeatureFlag[] {
-    if(!query) { return flags };
+) {
+    // if(!query) { return flags };
+    if(!query) { return index.map(item => item.id) };
 
-    const normalizeQuery = query.toLowerCase();
+    // const normalizeQuery = query.toLowerCase();
 
-    return flags.filter((flag) => flag.key.includes(normalizeQuery) || flag.description?.includes(normalizeQuery));
+    // return flags.filter((flag) => flag.key.includes(normalizeQuery) || flag.description?.includes(normalizeQuery));
+    return index.filter(item => item.searchableText.includes(query)).map(item => item.id);
 };
