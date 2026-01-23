@@ -11,11 +11,16 @@ export interface FeatureFlag {
 };
 
 export type UpdateFeatureFlagBody = {
-  environment: Environment;
-  enabled: boolean;
+    environment: Environment;
+    enabled: boolean;
 };
 
 export type CreateFeatureFlagForm = {
-  key: string,
-  description?: string
+    key: string,
+    description?: string
+};
+
+export interface FeatureFlagSearchItem {
+    id: string
+    searchableText: string
 };
