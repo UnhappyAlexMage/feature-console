@@ -6,7 +6,7 @@ import { canToggleFlag } from "../entities/featureFlag/model/rules";
 import { useFeatureFlagsContext } from "../providers/FeatureFlagsContext";
 
 export const FeatureFlags = () => {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const handleClickVisible = () => {
     setVisible(!visible);
   };
