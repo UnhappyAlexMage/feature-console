@@ -12,7 +12,7 @@ export const InputSeacrhFeatureFlags = ({ search, setSearch }: Props) => {
             placeholder="Search feature flags"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="border px-2 py-1 rounded w-full"
+            className="border px-2 py-1 rounded h-12 w-full"
         />
     )
 };
