@@ -1,27 +1,42 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useFeatureFlagsContext } from "../providers/FeatureFlagsContext";
 import { searchFeatureFlags } from "../features/search/searchFeatureFlags";
 import { useDebouncedValue } from "./useDebouncedValue";
-import { useMemo } from "react";
+import { normalizeText } from "../utils/normalizeText";
+import { buildFeatureFlagSearchIndex } from "../features/search/buildFeatureFlagSearchIndex";
 
 export function useFeatureFlagSearch () {
     const featureFlags = useFeatureFlagsContext();
     const [search, setSearch] = useState("");
 
     const debouncedSearch = useDebouncedValue(search, 500);
+    const normalizeQuery = normalizeText(debouncedSearch);
 
-    const filteredFlags = searchFeatureFlags(featureFlags.flags, debouncedSearch);
+    // const filteredFlags = searchFeatureFlags(featureFlags.flags, debouncedSearch);
 
-    const filterSearchState = useMemo(() => {
+    // const filterSearchState = useMemo(() => {
         
-    if(!debouncedSearch) {
-        return featureFlags.flags;
-    }
+    // if(!debouncedSearch) {
+    //     return featureFlags.flags;
+    // }
     
-    return filteredFlags;
+    // return filteredFlags;
 
-    }, [debouncedSearch, filteredFlags]);
-      
+    // }, [debouncedSearch, filteredFlags]);
+
+    const searchIndex = useMemo(
+        () => buildFeatureFlagSearchIndex(featureFlags.flags), [featureFlags.flags]
+    );
+
+    const matchedIds = useMemo(
+        () => searchFeatureFlags(searchIndex, normalizeQuery), [searchIndex, normalizeQuery]
+    );
+    
+    const filterSearchState = useMemo(
+        () => featureFlags.flags.filter(flag => matchedIds.includes(flag.id)), 
+        [featureFlags.flags, matchedIds]
+    );
+
     return {
         search,
         setSearch,
