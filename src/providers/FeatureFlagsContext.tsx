@@ -1,6 +1,7 @@
-import { createContext, useContext, type ReactNode } from "react";
+import { createContext, useContext, useEffect, type ReactNode } from "react";
 import type { Environment, FeatureFlag } from "../entities/featureFlag/model/types";
 import { useFeatureFlags } from "../hooks/useFeatureFlags";
+import { saveToStorage } from "../shared/lib/localStorage";
 
 type FeatureFlagsContextValue = {
     flags: FeatureFlag[];
@@ -16,6 +17,10 @@ const FeatureFlagsContext = createContext<FeatureFlagsContextValue | null>(null)
 export function FeatureFlagsProvider({ children } : { children: ReactNode }) {
     const featureFlagsToContext = useFeatureFlags();
 
+    useEffect(() => {
+        saveToStorage("feature-flags", featureFlagsToContext.flags);
+    }, [featureFlagsToContext.flags]);
+    
     return (
         <FeatureFlagsContext.Provider value={featureFlagsToContext}>
             { children }
