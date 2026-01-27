@@ -5,13 +5,19 @@ import { toggleFeatureFlag } from "../entities/featureFlag/model/action";
 import { updateFeatureFlagApi } from "../api/updateFeatureFlag.api";
 import type { Environment } from "../entities/featureFlag/model/types";
 import { mapFeatureFlagDtoDomain } from "../service/mappingFeatureFlag";
+import { loadFromStorage } from "../shared/lib/localStorage";
 
 export function useFeatureFlags() {
-  const [flags, setFlags] = useState<FeatureFlag[]>([]);
+  const [flags, setFlags] = useState<FeatureFlag[]>(() => {
+    const stored = loadFromStorage<FeatureFlag[]>("feature-flags");
+    return stored ?? []
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // if(flags.length > 0) return;
+    
     fetchFeatureFlags()
       .then((dtos) => dtos.map(mapFeatureFlagDtoDomain))
       .then(setFlags)
