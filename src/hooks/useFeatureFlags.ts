@@ -12,11 +12,17 @@ export function useFeatureFlags() {
     const stored = loadFromStorage<FeatureFlag[]>("feature-flags");
     return stored ?? []
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => {
+    const stored = loadFromStorage("feature-flags");
+    return !stored;
+  });
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // if(flags.length > 0) return;
+    if(flags.length > 0) {
+      setIsLoading(false);
+      return;
+    };
     
     fetchFeatureFlags()
       .then((dtos) => dtos.map(mapFeatureFlagDtoDomain))
