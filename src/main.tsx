@@ -6,6 +6,9 @@ import { RouterProvider } from 'react-router-dom';
 import router from './routes/router';
 import { store } from './store/store';
 
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from './app/queryClinet';
+
 import { EnvironmentProdider } from './providers/EnvironmentContext';
 import { AuthProvider } from './providers/UserRoleContext';
 import { UIProvider } from './providers/UIContext';
@@ -24,15 +27,17 @@ enableMocking().then(() => {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <Provider store={store}>
-        <FeatureFlagsProvider>
-          <UIProvider>
-            <EnvironmentProdider>
-              <AuthProvider>
-                <RouterProvider router={router} />
-              </AuthProvider>
-            </EnvironmentProdider>
-          </UIProvider>
-        </FeatureFlagsProvider>
+        <QueryClientProvider client={queryClient}>
+          <FeatureFlagsProvider>
+            <UIProvider>
+              <EnvironmentProdider>
+                <AuthProvider>
+                  <RouterProvider router={router} />
+                </AuthProvider>
+              </EnvironmentProdider>
+            </UIProvider>
+          </FeatureFlagsProvider>
+        </QueryClientProvider>
       </Provider>
     </StrictMode>,
   )
