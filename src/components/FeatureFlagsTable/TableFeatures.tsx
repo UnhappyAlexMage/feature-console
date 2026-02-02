@@ -8,7 +8,7 @@ import { StatusCell } from "./StatusCell";
 import { ToggleButton } from "./ToggleButton";
 import { toggleFlag } from "../../features/toggleFlag";
 import { DeleteFeatureFlagButton } from "../../features/deleteFeatureFlag/DeleteFeatureFlagButton";
-
+// import { useFeatureFlagsQuery } from "../../hooks/useFeatureFlagsQuery";
 import type { FeatureFlag } from "../../entities/featureFlag/model/types";
 
 type Props = {
@@ -23,6 +23,11 @@ export default function TableFeatures({ filteredFlags }: Props) {
     const canToggle = canToggleFlag(userRole, environment);
 
     // const { filteredFlags } = useFeatureFlagSearch();
+
+    // const {data: flags, isLoading, error} = useFeatureFlagsQuery();
+    // if (isLoading) return <div>Loading...</div>;
+    // if (error) return <div>Error loading flags</div>;
+    // if (!flags) return null;
 
     return (
         <table className="w-full border border-gray-300 rounded-lg mt-6">
